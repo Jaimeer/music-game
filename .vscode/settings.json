@@ -1,0 +1,25 @@
+{
+  "editor.formatOnSave": true,
+  "editor.tabSize": 2,
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    {
+      "language": "vue",
+      "autoFix": true
+    },
+    {
+      "language": "html",
+      "autoFix": true
+    }
+  ],
+  "vetur.validation.template": false,
+  "eslint.autoFixOnSave": true,
+  "html.format.enable": false,
+  "vetur.format.defaultFormatter.html": "prettier",
+  "workbench.colorCustomizations": {
+    "statusBar.background": "#647c0e",
+    "statusBarItem.hoverBackground": "#3f7668",
+    "statusBar.foreground": "#e7e7e7"
+  }
+}
