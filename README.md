@@ -1,6 +1,6 @@
 # music-game
 
-> My first-rate Nuxt.js project
+> Music Game
 
 ## Build Setup
 
