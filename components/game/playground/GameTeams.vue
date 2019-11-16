@@ -69,6 +69,7 @@
 <script>
 import { db } from '@/plugins/firebase'
 import GameMixin from '@/components/mixins/GameMixin'
+const debug = require('debug')('app:GameTeams')
 
 export default {
   mixins: [GameMixin],
@@ -124,7 +125,7 @@ export default {
         })
     },
     async createTeams() {
-      console.log(
+      debug(
         'createTeams',
         Object.keys(this.game.teams).length,
         this.numTeams,
@@ -135,7 +136,7 @@ export default {
         this.isOwner &&
         Object.keys(this.game.teams).length !== this.numTeams
       ) {
-        console.log('createTeams', 'entro')
+        debug('createTeams', 'entro')
         const teams = {}
         for (let i = 1; i <= this.numTeams; i++) {
           teams[i] = []

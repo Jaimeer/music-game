@@ -37,6 +37,7 @@
 <script>
 import { db } from '@/plugins/firebase'
 import UserMixin from '@/components/mixins/UserMixin'
+const debug = require('debug')('app:GameList')
 
 export default {
   mixins: [UserMixin],
@@ -55,11 +56,11 @@ export default {
       await this.$firestoreRefs.musicGames.doc(musicGame.code).set(musicGame)
     },
     async remove(item) {
-      console.log('REMOVE', item) // eslint-disable-line
+      debug('REMOVE', item) // eslint-disable-line
       await this.$firestoreRefs.musicGames.doc(item.code).delete()
     },
     enter(item) {
-      console.log('ENTER', item) // eslint-disable-line
+      debug('ENTER', item) // eslint-disable-line
       this.$router.push({ name: 'gameId', params: { gameId: item.code } })
     },
     isOwner(game) {

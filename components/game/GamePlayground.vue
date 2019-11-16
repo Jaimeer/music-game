@@ -18,7 +18,7 @@
       </v-col>
     </v-row>
     <!-- DEBUG -->
-    <v-card color="blue-grey lighten-5">
+    <v-card v-if="false" color="blue-grey lighten-5">
       <v-card-text>
         <v-row>
           <v-col>

@@ -30,7 +30,11 @@ export default {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: ['@/plugins/firebase', '@/plugins/persistedState'],
+  plugins: [
+    '@/plugins/debug',
+    '@/plugins/firebase',
+    '@/plugins/persistedState'
+  ],
   /*
    ** Nuxt.js dev-modules
    */
@@ -42,7 +46,11 @@ export default {
   /*
    ** Nuxt.js modules
    */
-  modules: [],
+  modules: ['@nuxtjs/axios'],
+  /*
+   ** Axios module
+   */
+  axios: {},
   /*
    ** vuetify module configuration
    ** https://github.com/nuxt-community/vuetify-module
