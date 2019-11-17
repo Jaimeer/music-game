@@ -15,23 +15,35 @@ export default {
     }),
     spotifySignUp() {
       debug('spotifySignUp')
-      return SpotifyLib.signUp()
+      return this.executeAction(SpotifyLib.signUp)
     },
     spotifyPause(token) {
       debug('spotifyPause')
-      return SpotifyLib.pause(this.spotifyToken)
+      return this.executeAction(SpotifyLib.pause, true)
     },
     spotifyResume() {
       debug('spotifyResume')
-      return SpotifyLib.resume(this.spotifyToken)
+      return this.executeAction(SpotifyLib.resume, true)
     },
     spotifySongInfo() {
       debug('spotifySongInfo')
-      return SpotifyLib.songInfo(this.spotifyToken)
+      return this.executeAction(SpotifyLib.songInfo, true)
     },
     spotifyNext() {
       debug('spotifyNext')
-      return SpotifyLib.nextSong(this.spotifyToken)
+      return this.executeAction(SpotifyLib.nextSong, true)
+    },
+    async executeAction(action, sendToken) {
+      try {
+        const response = sendToken
+          ? await action(this.spotifyToken)
+          : await action()
+        debug('executeAction', response)
+        return response
+      } catch (err) {
+        if (err.message.includes('401')) this.cleanSpotify()
+        else debug('executeAction', err.message, err.status)
+      }
     }
   }
 }

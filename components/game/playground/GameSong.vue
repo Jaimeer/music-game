@@ -1,21 +1,14 @@
 <template>
   <v-container class="GameSong">
     <v-row>
-      <v-col>
-        <img :src="song.item.album.images[0].url" />
+      <v-col cols="12" sm="6">
+        <img :src="song.image" />
       </v-col>
-      <v-col>
-        <div class="title">{{ song.item.name }}</div>
-        <div
-          v-for="artist in song.item.artists"
-          :key="artist.id"
-          class="subtitle-1"
-        >
-          {{ artist.name }}
+      <v-col cols="12" sm="6">
+        <div class="title">
+          {{ song.name }} <v-chip label small>{{ date }}</v-chip>
         </div>
-        <div>
-          <v-chip label small>{{ song.item.album.release_date }}</v-chip>
-        </div>
+        <div class="subtitle-1">{{ artists }}</div>
       </v-col>
     </v-row>
   </v-container>
@@ -28,6 +21,14 @@ export default {
       type: Object,
       required: true
     }
+  },
+  computed: {
+    artists() {
+      return this.song.artists.map((x) => x.name).join(', ')
+    },
+    date() {
+      return new Date(this.song.releaseDate).getFullYear()
+    }
   }
 }
 </script>
@@ -35,8 +36,7 @@ export default {
 <style lang="scss">
 .GameSong {
   img {
-    max-width: 100px;
-    max-height: 100px;
+    width: 100%;
   }
 }
 </style>

@@ -2,16 +2,10 @@
   <v-app>
     <v-content>
       <TopNav v-if="user" />
-      <v-container fill-height>
-        <v-row align="center" justify="center">
-          <v-col>
-            <Login v-if="!user" />
-            <template v-else>
-              <nuxt />
-            </template>
-          </v-col>
-        </v-row>
-      </v-container>
+      <Login v-if="!user" />
+      <template v-else>
+        <nuxt />
+      </template>
     </v-content>
   </v-app>
 </template>

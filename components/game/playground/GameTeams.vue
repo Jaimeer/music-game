@@ -1,16 +1,30 @@
 <template>
-  <v-container>
-    <!-- TEAMS -->
-    <v-row>
-      <v-col v-for="(team, code) in game.teams" :key="code">
+  <div>
+    <v-row dense>
+      <v-col
+        v-for="(team, code) in game.teams"
+        :key="code"
+        cols="12"
+        :sm="12 / Object.keys(game.teams).length"
+      >
         <v-card>
           <v-card-title>
-            <span class="title">Team {{ code }}</span>
+            <span class="title">{{ $t('general.team') }} {{ code }}</span>
             <v-chip label small class="ml-2" :color="teamColor(code)"></v-chip>
+            <v-spacer />
+            <span>{{ team.score }}</span>
           </v-card-title>
           <v-card-text>
-            <div v-for="user in game.teams[code]" :key="user.uuid">
-              {{ user.name }}
+            <div v-for="player in game.teams[code].players" :key="player.uuid">
+              <v-btn
+                v-if="isOwner"
+                small
+                icon
+                @click="removePlayer(code, player.uuid)"
+              >
+                <v-icon>mdi-delete</v-icon>
+              </v-btn>
+              <span class="ml-1">{{ player.name }}</span>
             </div>
           </v-card-text>
           <v-card-actions>
@@ -20,16 +34,16 @@
               class="primary"
               @click="addPlayer(code)"
             >
-              Unirme
+              {{ $t('teams.join') }}
             </v-btn>
             <v-btn
               v-else-if="userTeam === code"
               block
               text
               color="secondary"
-              @click="removePlayer()"
+              @click="removePlayer(code, user.uuid)"
             >
-              Abandonar
+              {{ $t('teams.leave') }}
             </v-btn>
           </v-card-actions>
         </v-card>
@@ -38,7 +52,14 @@
     <v-row>
       <v-col>
         <v-card v-if="isOwner">
+          <v-card-title>{{ $t('general.configuration') }}</v-card-title>
           <v-card-text>
+            <v-alert outlined dense color="orange" border="left">
+              <v-icon color="orange">mdi-alert</v-icon>
+              <span class="caption">
+                {{ $t('teams.changeNumTeamsAlert') }}
+              </span>
+            </v-alert>
             <v-slider
               v-model="numTeams"
               :min="2"
@@ -63,7 +84,7 @@
         </v-card>
       </v-col>
     </v-row>
-  </v-container>
+  </div>
 </template>
 
 <script>
@@ -84,7 +105,8 @@ export default {
       immediate: true,
       handler(newValue, oldValue) {
         if (this.game) {
-          if (!oldValue) this.numTeams = this.game.teams.length
+          const currentNumTeam = Object.keys(this.game.teams).length
+          if (!oldValue) this.numTeams = currentNumTeam
           this.createTeams()
         }
       }
@@ -98,53 +120,55 @@ export default {
   },
   methods: {
     async addPlayer(teamCode) {
+      debug('addPlayer', teamCode)
       const game = this.game || this.gameCopy
-      const teamUsers = Array.isArray(game.teams[teamCode])
-        ? game.teams[teamCode]
+      const teamUsers = Array.isArray(game.teams[teamCode].players)
+        ? game.teams[teamCode].players
         : []
       teamUsers.push(this.user)
       await db
         .collection('music-games')
         .doc(this.game.id)
         .update({
-          [`teams.${teamCode}`]: JSON.parse(JSON.stringify(teamUsers))
+          [`teams.${teamCode}.players`]: JSON.parse(JSON.stringify(teamUsers))
         })
     },
-    async removePlayer() {
-      const teamCode = this.userTeam
+    async removePlayer(teamCode, uuid) {
+      debug('removePlayer', teamCode, uuid)
       const game = this.game || this.gameCopy
-      let teamUsers = Array.isArray(game.teams[teamCode])
-        ? game.teams[teamCode]
+      let teamUsers = Array.isArray(game.teams[teamCode].players)
+        ? game.teams[teamCode].players
         : []
-      teamUsers = teamUsers.filter((a) => a.uuid !== this.user.uuid)
+      teamUsers = teamUsers.filter((a) => a.uuid !== uuid)
       await db
         .collection('music-games')
         .doc(this.game.id)
         .update({
-          [`teams.${teamCode}`]: JSON.parse(JSON.stringify(teamUsers))
+          [`teams.${teamCode}.players`]: JSON.parse(JSON.stringify(teamUsers))
         })
     },
     async createTeams() {
-      debug(
-        'createTeams',
-        Object.keys(this.game.teams).length,
-        this.numTeams,
-        Object.keys(this.game.teams).length !== this.numTeams
-      )
+      debug('createTeams', '?')
       if (
         this.game &&
         this.isOwner &&
         Object.keys(this.game.teams).length !== this.numTeams
       ) {
-        debug('createTeams', 'entro')
+        debug('createTeams', 'DO IT')
         const teams = {}
         for (let i = 1; i <= this.numTeams; i++) {
-          teams[i] = []
+          teams[i] = {
+            score: 0,
+            players: []
+          }
         }
+        debug('bbbbbbb', teams)
         await db
           .collection('music-games')
           .doc(this.game.id)
           .update({ teams })
+
+        await this.resetPlays()
       }
     }
   }

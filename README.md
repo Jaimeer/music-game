@@ -19,4 +19,6 @@ $ yarn start
 $ yarn generate
 ```
 
-For detailed explanation on how things work, check out [Nuxt.js docs](https://nuxtjs.org).
+# Parameters
+
+Copy parameters.json.dist and put your own values

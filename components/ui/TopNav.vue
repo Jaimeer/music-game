@@ -1,6 +1,6 @@
 <template>
   <v-toolbar dense>
-    <v-toolbar-title>Music Game</v-toolbar-title>
+    <v-toolbar-title @click="home">{{ $t('general.title') }}</v-toolbar-title>
     <v-spacer></v-spacer>
     <v-toolbar-items>
       <v-btn text icon @click="spotify">
@@ -28,6 +28,9 @@ export default {
         this.setRouteFrom({ route: this.$route.fullPath })
         this.spotifySignUp()
       }
+    },
+    home() {
+      this.$router.push({ name: 'index' })
     }
   }
 }

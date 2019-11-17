@@ -32,8 +32,9 @@ export default {
    */
   plugins: [
     '@/plugins/debug',
-    '@/plugins/firebase',
-    '@/plugins/persistedState'
+    '@/plugins/i18n',
+    '@/plugins/persistedState',
+    '@/plugins/firebase'
   ],
   /*
    ** Nuxt.js dev-modules
@@ -75,9 +76,13 @@ export default {
    ** Build configuration
    */
   build: {
-    /*
-     ** You can extend webpack config here
-     */
-    extend(config, ctx) {}
+    extend(config, ctx) {
+      // YAML support
+      config.resolve.extensions.push('.yml')
+      config.module.rules.push({
+        test: /\.yml$/,
+        use: ['js-yaml-loader']
+      })
+    }
   }
 }

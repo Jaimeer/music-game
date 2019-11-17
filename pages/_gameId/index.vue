@@ -1,10 +1,10 @@
 <template>
-  <v-container>
-    <template v-if="!game">Trying to load this game...</template>
+  <div>
+    <template v-if="!game">{{ $t('general.loadingGame') }}</template>
     <template v-else>
       <game-playground :game="game" />
     </template>
-  </v-container>
+  </div>
 </template>
 
 <script>

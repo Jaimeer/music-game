@@ -1,8 +1,23 @@
 <template>
   <v-container>
+    <!-- Spotify Alert -->
+    <v-row>
+      <v-col v-if="isOwner && !spotifyToken">
+        <v-alert
+          border="left"
+          color="green lighten-1"
+          icon="mdi-spotify"
+          dark
+          class="mb-0"
+        >
+          {{ $t('spotify.join') }}
+        </v-alert>
+      </v-col>
+    </v-row>
+    <!-- Game Title -->
     <v-row>
       <v-col>
-        <span class="title">Juego</span>
+        <span class="title">{{ $t('general.game') }}</span>
         <v-chip label small>{{ game.id }}</v-chip>
         <v-chip v-if="isOwner" label small class="info">owner</v-chip>
       </v-col>
@@ -12,23 +27,19 @@
     <!-- TEAMS -->
     <GameTeams :game="game" />
     <!-- EXIT -->
-    <v-row>
-      <v-col>
-        <v-btn text @click="exit">Salir</v-btn>
-      </v-col>
-    </v-row>
+    <v-btn dense text @click="exit">{{ $t('general.exit') }}</v-btn>
     <!-- DEBUG -->
     <v-card v-if="false" color="blue-grey lighten-5">
       <v-card-text>
         <v-row>
           <v-col>
-            info
+            {{ $t('debug.info') }}
             <pre>{{ { isOwner } }}</pre>
-            user
+            {{ $t('debug.info') }}
             <pre>{{ user }}</pre>
           </v-col>
           <v-col>
-            game
+            {{ $t('debug.fame') }}
             <pre>{{ game }}</pre>
           </v-col>
         </v-row>
@@ -39,12 +50,13 @@
 
 <script>
 import GameMixin from '@/components/mixins/GameMixin'
+import SpotifyMixin from '@/components/mixins/SpotifyMixin'
 import GameTeams from './playground/GameTeams'
 import GamePlay from './playground/GamePlay'
 
 export default {
   components: { GameTeams, GamePlay },
-  mixins: [GameMixin],
+  mixins: [GameMixin, SpotifyMixin],
   data: () => ({
     gameCopy: null
   }),

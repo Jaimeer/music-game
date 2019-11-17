@@ -2,11 +2,11 @@
   <v-container>
     <v-row>
       <v-col>
-        <span v-if="!error">Loading</span>
+        <span v-if="!error">{{ $t('general.loading') }}</span>
         <span v-else>
           {{ error }}
           <router-link :to="{ name: 'index' }">
-            <b>Home</b>
+            <b>{{ $t('general.home') }}</b>
           </router-link>
         </span>
       </v-col>
@@ -18,6 +18,7 @@
 import querystring from 'querystring'
 import SpotifyMixin from '@/components/mixins/SpotifyMixin'
 import BaseMixin from '@/components/mixins/BaseMixin'
+const debug = require('debug')('app:CallbackPage')
 
 export default {
   layout: 'callback',
@@ -25,8 +26,10 @@ export default {
   data: () => ({ error: null }),
   async created() {
     const hash = this.$route.hash
+    debug('hash', hash)
     if (hash) {
       const data = querystring.decode(hash.replace('#', ''))
+      debug('data', data)
       await this.saveSpotifyToken({ token: data.access_token })
       this.$router.push(this.routeFrom)
     } else {

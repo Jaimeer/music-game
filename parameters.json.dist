@@ -2,5 +2,9 @@
   "spotify": {
     "clientId": "",
     "callbackUrl": "http://localhost:3000/spotify/callback"
+  },
+  "debugOptions": {
+    "logs": false,
+    "logTranslationWarn": false
   }
 }

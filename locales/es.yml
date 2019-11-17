@@ -1,0 +1,40 @@
+player:
+  resume: Reproducir
+  pause: Pausa
+  reset: Resetear
+  songInfo: Ver Canción
+  next: Siguiente
+  clean: Limpiar
+  participationOrder: Orden de participación
+
+teams:
+  join: Unirme
+  leave: Abandonar
+  changeNumTeamsAlert: Modificar el número de equipos, resetea los equipos
+
+general:
+  title: Juego de Música
+  team: Equipo
+  participate: Yo lo se!!!
+  game: Sala
+  exit: Salir
+  owner: Adminisrtrador
+  games: Salas de Juego
+  loadingGame: Cargando datos de la sala....
+  loading: Cargando...
+  home: Volver al inicio
+  configuration: Configuración
+  gameOf: Sala de {ownerName}
+  win: Gana
+
+login:
+  enter: Entrar
+  name: Nombre
+
+debug:
+  info: Info
+  user: User
+  game: Game
+
+spotify:
+  join: Para poder controlar Spotify debes logarte pulsando sobre el icono de la barra de navegación
