@@ -40,6 +40,7 @@
               <GameSong v-if="game.song" :song="game.song" />
             </v-col>
           </v-row>
+          <v-divider v-if="isOwner" />
           <v-row v-if="isOwner">
             <v-col
               v-for="(team, code) in game.teams"
