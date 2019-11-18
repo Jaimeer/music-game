@@ -91,3 +91,6 @@ sw.*
 
 # Parameters
 parameters.json
+
+# firebase 
+.firebase

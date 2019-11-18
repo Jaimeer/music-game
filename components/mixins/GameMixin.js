@@ -18,10 +18,8 @@ export default {
     userTeam() {
       if (!this.game) return null
       let userTeam = null
-      debug('aaaa1', this.game.teams)
       Object.keys(this.game.teams).forEach((code) => {
         if (!userTeam) {
-          debug('aaaa2', code, this.game, this.game.teams[code].players)
           const found = this.game.teams[code].players.find(
             (user) => user.uuid === this.user.uuid
           )

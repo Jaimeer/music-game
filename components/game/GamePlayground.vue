@@ -17,9 +17,13 @@
     <!-- Game Title -->
     <v-row>
       <v-col>
-        <span class="title">{{ $t('general.game') }}</span>
-        <v-chip label small>{{ game.id }}</v-chip>
-        <v-chip v-if="isOwner" label small class="info">owner</v-chip>
+        <v-icon v-if="isOwner" :title="$t('general.owner')" color="info"
+          >mdi-account-circle</v-icon
+        >
+        <span class="title">
+          {{ $t('general.gameOf', { ownerName: game.ownerName }) }}
+        </span>
+        <v-chip label small class="info">{{ date }}</v-chip>
       </v-col>
     </v-row>
     <!-- PLAY GROUND -->
@@ -53,6 +57,7 @@ import GameMixin from '@/components/mixins/GameMixin'
 import SpotifyMixin from '@/components/mixins/SpotifyMixin'
 import GameTeams from './playground/GameTeams'
 import GamePlay from './playground/GamePlay'
+import moment from 'moment'
 
 export default {
   components: { GameTeams, GamePlay },
@@ -60,6 +65,11 @@ export default {
   data: () => ({
     gameCopy: null
   }),
+  computed: {
+    date() {
+      return moment(this.game.date.toDate()).format('YYYY-MM-DD')
+    }
+  },
   watch: {
     game: {
       immediate: true,

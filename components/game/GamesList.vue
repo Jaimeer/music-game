@@ -14,17 +14,15 @@
                 >
                   <v-list-item-content>
                     <v-list-item-title>
+                      <v-icon v-if="isOwner(item)" color="info"
+                        >mdi-account-circle</v-icon
+                      >
                       <span class="mr-4">
                         {{
                           $t('general.gameOf', { ownerName: item.ownerName })
                         }}
                       </span>
-                      <v-chip label small color="primary">
-                        {{ item.code }}
-                      </v-chip>
-                      <v-chip v-if="isOwner(item)" label small color="info">
-                        {{ $t('general.owner') }}
-                      </v-chip>
+                      <v-chip label small class="info">{{ date }}</v-chip>
                     </v-list-item-title>
                   </v-list-item-content>
                   <v-list-item-action>
@@ -59,6 +57,7 @@
 <script>
 import { db } from '@/plugins/firebase'
 import UserMixin from '@/components/mixins/UserMixin'
+import moment from 'moment'
 const debug = require('debug')('app:GameList')
 
 export default {
@@ -74,6 +73,7 @@ export default {
         code: guid,
         owner: this.user.uuid,
         ownerName: this.user.name,
+        date: new Date(),
         teams: {}
       }
       await this.$firestoreRefs.musicGames.doc(musicGame.code).set(musicGame)
@@ -88,6 +88,9 @@ export default {
     },
     isOwner(game) {
       return game.owner === this.user.uuid
+    },
+    date(game) {
+      return moment(game.date.toDate()).format('YYYY-MM-DD')
     }
   },
   firestore: {

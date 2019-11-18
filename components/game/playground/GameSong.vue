@@ -2,13 +2,13 @@
   <v-container class="GameSong">
     <v-row>
       <v-col cols="12" sm="6">
-        <img :src="song.image" />
-      </v-col>
-      <v-col cols="12" sm="6">
         <div class="title">
           {{ song.name }} <v-chip label small>{{ date }}</v-chip>
         </div>
         <div class="subtitle-1">{{ artists }}</div>
+      </v-col>
+      <v-col cols="12" sm="6">
+        <img :src="song.image" />
       </v-col>
     </v-row>
   </v-container>

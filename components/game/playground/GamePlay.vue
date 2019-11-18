@@ -88,12 +88,7 @@
       <v-card-actions>
         <v-row dense>
           <v-col cols="6" md="2">
-            <v-btn
-              block
-              :disabled="plays.length === 0"
-              class="primary"
-              @click.stop="nextSong"
-            >
+            <v-btn block class="primary" @click.stop="nextSong">
               {{ $t('player.next') }}
             </v-btn>
           </v-col>
